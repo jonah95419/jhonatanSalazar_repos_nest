@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -32,16 +33,17 @@ export class Repository extends BaseEntity {
     length: 1,
     type: 'char',
   })
-  'state': string;
-
-  @Column({
-    type: 'timestamp',
-  })
-  'create_time': Date;
+  'status': string;
 
   @Column({
     length: 1,
     type: 'char',
   })
-  'status': string;
+  'state': string;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    name: 'create_time',
+  })
+  'createTime': Date;
 }

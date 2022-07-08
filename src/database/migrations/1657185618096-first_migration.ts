@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class firstMigration1657165528188 implements MigrationInterface {
-    name = 'firstMigration1657165528188'
+export class firstMigration1657185618096 implements MigrationInterface {
+    name = 'firstMigration1657185618096'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE SEQUENCE "organizations_id_organization_seq"`);

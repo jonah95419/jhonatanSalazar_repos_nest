@@ -1,8 +1,8 @@
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Configuration } from 'src/config/config.keys';
-import { ConfigModule } from 'src/config/config.module';
-import { ConfigService } from 'src/config/config.service';
-import { DataSourceOptions } from 'typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { Organization } from '../modules/organization/organization.entity';
+import { Configuration } from '../config/config.keys';
+import { ConfigModule } from '../config/config.module';
+import { ConfigService } from '../config/config.service';
 
 export const databaseProviders = [
   TypeOrmModule.forRootAsync({
@@ -15,17 +15,18 @@ export const databaseProviders = [
 
       return {
         ssl: true,
-        type: Configuration.DATABASE_NAME,
+        type: config.get(Configuration.DATABASE) as 'cockroachdb',
         url: dbUrl.toString(),
-        synchronize: true,
+        synchronize: false,
         migrationsRun: true,
         extra: {
           options: routingId,
         },
+        autoLoadEntities: true,
         dropSchema: false,
-        entities: [`${__dirname}/../**/*.entity{.ts,.js]}`],
-        migrations: [`${__dirname}/migrations/*{.ts,.js]}`],
-      } as DataSourceOptions;
+        entities: [Organization],
+        migrations: [__dirname + '/migrations/*{.ts,.js}'],
+      } as TypeOrmModuleOptions;
     },
   }),
 ];
