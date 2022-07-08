@@ -3,6 +3,10 @@ import { Repository } from '../../repository/repository.entity';
 
 export class GetAllMetricDto {
   @IsNotEmpty()
+  @IsNumber()
+  'id_repository': number;
+
+  @IsNotEmpty()
   'repository': Repository;
 
   @IsNotEmpty()

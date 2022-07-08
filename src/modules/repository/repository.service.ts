@@ -45,7 +45,7 @@ export class RepositoryService {
     private readonly _tribeRepository: RepositoryOrm<Tribe>,
   ) {}
 
-  getItemById(id_repository: number): Observable<GetAllRepositoryDto> {
+  getItemById(id_repository: number): Observable<GetAllRepositoryDto | Error> {
     return of(1).pipe(
       mergeMap(() =>
         this._repositoryRepository.findOne({
@@ -68,6 +68,27 @@ export class RepositoryService {
   getAllItems(): Observable<GetAllRepositoryDto[]> {
     return of(1).pipe(
       mergeMap(() => this._repositoryRepository.find()),
+      map((repositories: Repository[]) =>
+        plainToInstance(GetAllRepositoryDto, repositories),
+      ),
+    );
+  }
+
+  getItemsByTribeId(
+    id_tribe: number,
+  ): Observable<GetAllRepositoryDto[] | object[] | Error> {
+    return of(1).pipe(
+      mergeMap(() => this._tribeRepository.findOne(id_tribe)),
+      mergeMap((tribe: Tribe) =>
+        iif(
+          () => !isEmpty(tribe),
+          of(tribe),
+          this._catchErrorMessage(MessageValues.MESSAGE_T404),
+        ),
+      ),
+      mergeMap(() =>
+        this._repositoryRepository.find({ where: { tribe: { id_tribe } } }),
+      ),
       map((repositories: Repository[]) =>
         plainToInstance(GetAllRepositoryDto, repositories),
       ),

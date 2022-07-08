@@ -3,14 +3,13 @@ import {
   Entity,
   OneToOne,
   JoinColumn,
-  PrimaryColumn,
-  BeforeInsert,
   BaseEntity,
+  PrimaryColumn,
 } from 'typeorm';
 import { Repository } from '../repository/repository.entity';
 
 @Entity('metrics')
-export class Metric extends BaseEntity {
+export class Metric {
   @PrimaryColumn()
   'id_repository': number;
 
@@ -19,11 +18,6 @@ export class Metric extends BaseEntity {
   })
   @JoinColumn({ name: 'id_repository' })
   'repository': Repository;
-
-  @BeforeInsert()
-  newid() {
-    this.id_repository = this.repository.id_repository;
-  }
 
   @Column({ type: 'integer' })
   'coverage': number;

@@ -20,9 +20,18 @@ export class RepositoryController {
   @Get(':id_repository')
   getRepositoryById(
     @Param('id_repository', ParseIntPipe) id_repository: number,
-  ): Observable<GetAllRepositoryDto> {
+  ): Observable<GetAllRepositoryDto | Error> {
     return of(1).pipe(
       mergeMap(() => this._repositoryService.getItemById(id_repository)),
+    );
+  }
+
+  @Get('tribe/:id_tribe')
+  getRepositoryByTribeId(
+    @Param('id_tribe', ParseIntPipe) id_tribe: number,
+  ): Observable<GetAllRepositoryDto[] | object[] | Error> {
+    return of(1).pipe(
+      mergeMap(() => this._repositoryService.getItemsByTribeId(id_tribe)),
     );
   }
 

@@ -11,7 +11,7 @@ export class GetAllTribeDto {
 
   @IsNotEmpty()
   @IsString()
-  'name': string;
+  name: string;
 
   @IsNotEmpty()
   @IsNumber()
