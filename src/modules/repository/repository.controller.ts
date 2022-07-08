@@ -51,4 +51,13 @@ export class RepositoryController {
       ),
     );
   }
+
+  @Get('report/:id_tribe')
+  getReportRepository(
+    @Param('id_tribe', ParseIntPipe) id_tribe: number,
+  ): Observable<string> {
+    return of(1).pipe(
+      mergeMap(() => this._repositoryService.generateReport(id_tribe)),
+    );
+  }
 }
