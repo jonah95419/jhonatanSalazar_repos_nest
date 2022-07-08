@@ -21,6 +21,13 @@ export class OrganizationService {
   getItemById(id_organization: number): Observable<GetAllOrganizationDto> {
     return of(1).pipe(
       mergeMap(() => this._organizationRepository.findOne(id_organization)),
+      mergeMap((organizationOld: Organization) =>
+        iif(
+          () => !isEmpty(organizationOld),
+          of(organizationOld),
+          this._catchErrorMessage(MessageValues.ORGANIZATION_EMPTY),
+        ),
+      ),
       mergeMap((organization: Organization) =>
         of(plainToInstance(GetAllOrganizationDto, organization)),
       ),

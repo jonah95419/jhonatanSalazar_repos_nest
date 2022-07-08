@@ -1,10 +1,13 @@
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
-import { Tribe } from '../../tribe/tribe.entity';
 import { MessageValues } from '../../../constants/MessageValues';
 
 @Exclude()
 export class GetAllOrganizationDto {
+  @Expose()
+  @IsNumber()
+  readonly id_organization: number;
+
   @Expose()
   @IsNotEmpty()
   @IsString()
@@ -15,8 +18,4 @@ export class GetAllOrganizationDto {
   @IsNotEmpty()
   @IsNumber()
   readonly status: number;
-
-  @Expose()
-  @IsNotEmpty()
-  readonly tribu: Tribe[];
 }
